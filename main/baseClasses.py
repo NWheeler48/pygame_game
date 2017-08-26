@@ -28,9 +28,4 @@ class PyGameBase:
 		sound = pygame.mixer.Sound(fullname)
 		return sound
 
-class Derived(PyGameBase):
-	def __init__(self):
-		self.data = []
 
-
-x = Derived()
