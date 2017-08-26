@@ -1,5 +1,8 @@
 import pygame 
+from main.background import Background
+
 class controller():
+
 	def __init__(self):
 		'''Intializes the controller, sets up screen, clock, and repeated keys''' 
 		pygame.init() 
@@ -21,7 +24,12 @@ class controller():
 			
 
 def main():
-	'''Runs the controller infinetly until quit''' 
+
+	# Initialize all the game objects
+
+	background = Background()
+
+	'''Runs the controller infinetly until quit'''
 	while True:
 		controller()
 		return 
