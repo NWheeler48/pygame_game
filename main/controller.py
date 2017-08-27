@@ -1,10 +1,14 @@
-import pygame 
+import pygame
 from background import Background
+
+from sprites.angus_mcfife import AngusMcFife
+
 
 class controller():
 
 	def __init__(self):
-		'''Intializes the controller, sets up screen, clock, and repeated keys''' 
+
+		'''Initializes the controller, sets up screen, clock, and repeated keys'''
 		pygame.init() 
 		self.clock = pygame.time.Clock() 
 		self.screen = pygame.display.set_mode((1000,1000))
@@ -12,17 +16,33 @@ class controller():
 		self.background = self.background.convert() 
 		self.white = (250,250,250)
 		self.black = (0,0,0) 
-		#self.background.fill(self.black)
+		self.background.fill(self.black)
 
 		# TODO trying something
 		self.screen.blit(self.background,(0,0))
 		pygame.display.flip()
 		pygame.key.set_repeat(500,30) #held key contiunes (delay, interval) 
-		bground = Background('cavern.png', [0,0])
+		bground = Background("cavern.png", [0,0])
+
+		# Sprite delight all night
+		all_sprite_list = pygame.sprite.Group()
+
+		# Our Hero Angus McFife
+		pos = [0,0]
+		angus = AngusMcFife(pos)
+		all_sprite_list.add(angus)
+
 		while True:
 			self.screen.fill([255,255,255])
 			self.screen.blit(bground.image, bground.rect)
 			self.clock.tick(60)
+
+			# sprite stuff
+			all_sprite_list.update()
+			all_sprite_list.draw(self.screen)
+
+			pygame.display.flip()
+
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT: #to quit hit x in top right corner
 						return 
