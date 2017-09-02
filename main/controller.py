@@ -16,11 +16,13 @@ class controller():
 
 
 		# Angus McFife
-		self.angus = AngusMcFife([0,0])
+
 
 		self.all_sprites_list = pygame.sprite.Group()
 
-		self.all_sprites_list.add(self.angus)
+		self.angus = AngusMcFife([0,0], self.all_sprites_list)
+
+		#self.all_sprites_list.add(self.angus)
 
 		# TODO trying something
 		self.screen.blit(self.background,(0,0))
@@ -28,15 +30,23 @@ class controller():
 		pygame.key.set_repeat(500,30) #held key contiunes (delay, interval) 
 		bground = Background('cavern.png', [0,0], 1000, 1000)
 
+		self.layer = pygame.sprite.LayeredUpdates()
+		self.layer.add(self.angus)
 		while True:
+
+			# Filling the screen.
 			self.screen.fill([255,255,255])
 			self.screen.blit(bground.image, bground.rect)
 
+			# Update the sprites.
 			self.all_sprites_list.update()
-			self.all_sprites_list.draw(self.screen)
 
+			#self.all_sprites_list.draw(self.screen)
+			self.layer.draw(self.screen)
+
+
+			# Update the screen.
 			pygame.display.flip()
-
 			self.clock.tick(60)
 
 			for event in pygame.event.get():
