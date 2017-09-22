@@ -118,9 +118,12 @@ class AngusMcFife(pygame.sprite.Sprite):
 
         self.buffer_rate = 0
 
+        self.update_rate = 1
+
         """ pygame stuff """
-        self.rect = pygame.Rect(self.x, self.y, 16, 16)
         self.image = pygame.image.load("sprites/assests/human_base/23.png")
+
+        self.rect = self.image.get_rect() #pygame.Rect(self.x, self.y, 16, 16)
 
         sprites.add(self)
 
@@ -138,13 +141,14 @@ class AngusMcFife(pygame.sprite.Sprite):
 
             # Up Attack
             if self.dir == 0:
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.width, self.rect.height + 10))
                 if self.attack_counter == 5:
                     self.up_counter = 0
                     self.image = pygame.image.load(self.up[self.up_counter])
                     self.attack_counter = 0
                     self.status = "moving"
                 else:
-                    if self.buffer_rate == 2:
+                    if self.buffer_rate == self.update_rate:
                         self.image = pygame.image.load(self.up_dagger[self.attack_counter])
                         self.attack_counter = (self.attack_counter + 1)% len(self.up_dagger)
                         # reset image reset rate.
@@ -153,14 +157,16 @@ class AngusMcFife(pygame.sprite.Sprite):
                         self.buffer_rate = 0
                     else:
                         self.buffer_rate += 1
+            # Left Attack
             elif self.dir == 1:
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, 20, 16))
                 if self.attack_counter == 5:
                     self.left_counter = 0
                     self.image = pygame.image.load(self.left[self.left_counter])
                     self.attack_counter = 0
                     self.status = "moving"
                 else:
-                    if self.buffer_rate == 2:
+                    if self.buffer_rate == self.update_rate:
                         self.image = pygame.image.load(self.left_dagger[self.attack_counter])
                         self.attack_counter = (self.attack_counter + 1)% len(self.left_dagger)
                         # reset image reset rate.
@@ -169,14 +175,16 @@ class AngusMcFife(pygame.sprite.Sprite):
                         self.buffer_rate = 0
                     else:
                         self.buffer_rate += 1
+            # Down Attack
             elif self.dir == 2:
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, 64, 64))
                 if self.attack_counter == 5:
                     self.down_counter = 0
                     self.image = pygame.image.load(self.down[self.down_counter])
                     self.attack_counter = 0
                     self.status = "moving"
                 else:
-                    if self.buffer_rate == 2:
+                    if self.buffer_rate == self.update_rate:
                         self.image = pygame.image.load(self.down_dagger[self.attack_counter])
                         self.attack_counter = (self.attack_counter + 1)% len(self.down_dagger)
                         # reset image reset rate.
@@ -185,15 +193,16 @@ class AngusMcFife(pygame.sprite.Sprite):
                         self.buffer_rate = 0
                     else:
                         self.buffer_rate += 1
-
+            # Right Attack
             elif self.dir == 3:
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, 20, 16))
                 if self.attack_counter == 5:
                     self.down_counter = 0
                     self.image = pygame.image.load(self.right[self.right_counter])
                     self.attack_counter = 0
                     self.status = "moving"
                 else:
-                    if self.buffer_rate == 2:
+                    if self.buffer_rate == self.update_rate:
                         self.image = pygame.image.load(self.right_dagger[self.attack_counter])
                         self.attack_counter = (self.attack_counter + 1)% len(self.right_dagger)
                         # reset image reset rate.
@@ -235,7 +244,12 @@ class AngusMcFife(pygame.sprite.Sprite):
 
     def update(self):
         self.handle_keys()
-        self.rect = pygame.Rect(self.x, self.y, 16, 16)
+
+        self.rect = self.image.get_rect() #pygame.Rect(self.x, self.y, 16, 16)
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+        pygame.draw.rect(self.screen, (255,255,255),self.rect,0)
 
         # Update the sprites.
         #self.armor_sprites.update()

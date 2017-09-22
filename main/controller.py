@@ -20,7 +20,7 @@ class controller():
 
 		self.all_sprites_list = pygame.sprite.Group()
 
-		self.angus = AngusMcFife([0,0], self.all_sprites_list)
+		self.angus = AngusMcFife([0,0], self.all_sprites_list, self.screen)
 
 		#self.all_sprites_list.add(self.angus)
 
