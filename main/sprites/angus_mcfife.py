@@ -141,7 +141,7 @@ class AngusMcFife(pygame.sprite.Sprite):
 
             # Up Attack
             if self.dir == 0:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.width, self.rect.height + 10))
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.width, self.rect.height - 10))
                 if self.attack_counter == 5:
                     self.up_counter = 0
                     self.image = pygame.image.load(self.up[self.up_counter])
@@ -159,7 +159,7 @@ class AngusMcFife(pygame.sprite.Sprite):
                         self.buffer_rate += 1
             # Left Attack
             elif self.dir == 1:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, 20, 16))
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.height, self.rect.width + 10))
                 if self.attack_counter == 5:
                     self.left_counter = 0
                     self.image = pygame.image.load(self.left[self.left_counter])
@@ -177,7 +177,7 @@ class AngusMcFife(pygame.sprite.Sprite):
                         self.buffer_rate += 1
             # Down Attack
             elif self.dir == 2:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, 64, 64))
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.width, self.rect.height + 10))
                 if self.attack_counter == 5:
                     self.down_counter = 0
                     self.image = pygame.image.load(self.down[self.down_counter])
@@ -195,7 +195,7 @@ class AngusMcFife(pygame.sprite.Sprite):
                         self.buffer_rate += 1
             # Right Attack
             elif self.dir == 3:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, 20, 16))
+                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.height, self.rect.width + 10))
                 if self.attack_counter == 5:
                     self.down_counter = 0
                     self.image = pygame.image.load(self.right[self.right_counter])
