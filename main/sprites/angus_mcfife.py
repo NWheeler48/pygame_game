@@ -127,12 +127,13 @@ class AngusMcFife(pygame.sprite.Sprite):
 
         sprites.add(self)
 
+        self.moveDist = 2
+
 
 
     def handle_keys(self):
         """Handle user input"""
         key = pygame.key.get_pressed()
-        dist = 2
 
         # Attacks will always take priority
         # + You can also move while attacking... All in one loop cause I am scrub.
@@ -141,106 +142,137 @@ class AngusMcFife(pygame.sprite.Sprite):
 
             # Up Attack
             if self.dir == 0:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.width, self.rect.height - 10))
-                if self.attack_counter == 5:
-                    self.up_counter = 0
-                    self.image = pygame.image.load(self.up[self.up_counter])
-                    self.attack_counter = 0
-                    self.status = "moving"
-                else:
-                    if self.buffer_rate == self.update_rate:
-                        self.image = pygame.image.load(self.up_dagger[self.attack_counter])
-                        self.attack_counter = (self.attack_counter + 1)% len(self.up_dagger)
-                        # reset image reset rate.
-                        self.buffer_rate = 0
-                    elif self.buffer_rate > 2:
-                        self.buffer_rate = 0
-                    else:
-                        self.buffer_rate += 1
+                self.upAttack()
+
             # Left Attack
             elif self.dir == 1:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.height, self.rect.width + 10))
-                if self.attack_counter == 5:
-                    self.left_counter = 0
-                    self.image = pygame.image.load(self.left[self.left_counter])
-                    self.attack_counter = 0
-                    self.status = "moving"
-                else:
-                    if self.buffer_rate == self.update_rate:
-                        self.image = pygame.image.load(self.left_dagger[self.attack_counter])
-                        self.attack_counter = (self.attack_counter + 1)% len(self.left_dagger)
-                        # reset image reset rate.
-                        self.buffer_rate = 0
-                    elif self.buffer_rate > 2:
-                        self.buffer_rate = 0
-                    else:
-                        self.buffer_rate += 1
+                self.leftAttack()
+
             # Down Attack
             elif self.dir == 2:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.width, self.rect.height + 10))
-                if self.attack_counter == 5:
-                    self.down_counter = 0
-                    self.image = pygame.image.load(self.down[self.down_counter])
-                    self.attack_counter = 0
-                    self.status = "moving"
-                else:
-                    if self.buffer_rate == self.update_rate:
-                        self.image = pygame.image.load(self.down_dagger[self.attack_counter])
-                        self.attack_counter = (self.attack_counter + 1)% len(self.down_dagger)
-                        # reset image reset rate.
-                        self.buffer_rate = 0
-                    elif self.buffer_rate > 2:
-                        self.buffer_rate = 0
-                    else:
-                        self.buffer_rate += 1
+                self.downAttack()
+
             # Right Attack
             elif self.dir == 3:
-                pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y, self.rect.height, self.rect.width + 10))
-                if self.attack_counter == 5:
-                    self.down_counter = 0
-                    self.image = pygame.image.load(self.right[self.right_counter])
-                    self.attack_counter = 0
-                    self.status = "moving"
-                else:
-                    if self.buffer_rate == self.update_rate:
-                        self.image = pygame.image.load(self.right_dagger[self.attack_counter])
-                        self.attack_counter = (self.attack_counter + 1)% len(self.right_dagger)
-                        # reset image reset rate.
-                        self.buffer_rate = 0
-                    elif self.buffer_rate > 2:
-                        self.buffer_rate = 0
-                    else:
-                        self.buffer_rate += 1
-
-
+                self.rightAttack()
 
         # Up
         elif key[pygame.K_w]:
-            self.y -= dist
-            self.image = pygame.image.load(self.up[self.up_counter])
-            self.up_counter = (self.up_counter + 1)% len(self.up)
-            self.dir = 0
-
+            self.upMove()
         # Down
         elif key[pygame.K_s]:
-            self.y += dist
-            self.image = pygame.image.load(self.down[self.down_counter])
-            self.down_counter = (self.down_counter + 1)% len(self.down)
-            self.dir = 2
-
+            self.downMove()
         # Left
         if key[pygame.K_a]:
-            self.x -= dist
-            self.image = pygame.image.load(self.left[self.left_counter])
-            self.left_counter = (self.left_counter + 1)% len(self.left)
-            self.dir = 1
-
+            self.leftMove()
         # Right
         elif key[pygame.K_d]:
-            self.x += dist
+            self.rightMove()
+
+    # Up move
+    def upMove(self):
+        self.y -= self.moveDist
+        self.image = pygame.image.load(self.up[self.up_counter])
+        self.up_counter = (self.up_counter + 1)% len(self.up)
+        self.dir = 0
+
+    # Down move
+    def downMove(self):
+        self.y += self.moveDist
+        self.image = pygame.image.load(self.down[self.down_counter])
+        self.down_counter = (self.down_counter + 1)% len(self.down)
+        self.dir = 2
+
+    # Left move
+    def leftMove(self):
+        self.x -= self.moveDist
+        self.image = pygame.image.load(self.left[self.left_counter])
+        self.left_counter = (self.left_counter + 1)% len(self.left)
+        self.dir = 1
+
+    # Right move
+    def rightMove(self):
+        self.x += self.moveDist
+        self.image = pygame.image.load(self.right[self.right_counter])
+        self.right_counter = (self.right_counter + 1)% len(self.right)
+        self.dir = 3
+
+    # Up Attack
+    def upAttack(self):
+        pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y - 10, self.rect.width, 15))
+        if self.attack_counter == 5:
+            self.up_counter = 0
+            self.image = pygame.image.load(self.up[self.up_counter])
+            self.attack_counter = 0
+            self.status = "moving"
+        else:
+            if self.buffer_rate == self.update_rate:
+                self.image = pygame.image.load(self.up_dagger[self.attack_counter])
+                self.attack_counter = (self.attack_counter + 1)% len(self.up_dagger)
+                # reset image reset rate.
+                self.buffer_rate = 0
+            elif self.buffer_rate > 2:
+                self.buffer_rate = 0
+            else:
+                self.buffer_rate += 1
+
+    # Left Attack
+    def leftAttack(self):
+        pygame.draw.rect(self.screen, (0,0,255), (self.x - 10, self.y, 15, self.rect.width))
+        if self.attack_counter == 5:
+            self.left_counter = 0
+            self.image = pygame.image.load(self.left[self.left_counter])
+            self.attack_counter = 0
+            self.status = "moving"
+        else:
+            if self.buffer_rate == self.update_rate:
+                self.image = pygame.image.load(self.left_dagger[self.attack_counter])
+                self.attack_counter = (self.attack_counter + 1)% len(self.left_dagger)
+                # reset image reset rate.
+                self.buffer_rate = 0
+            elif self.buffer_rate > 2:
+                self.buffer_rate = 0
+            else:
+                self.buffer_rate += 1
+
+    # Down attack
+    def downAttack(self):
+        pygame.draw.rect(self.screen, (0,0,255), (self.x, self.y + self.rect.height - 10, self.rect.width, 15))
+        if self.attack_counter == 5:
+            self.down_counter = 0
+            self.image = pygame.image.load(self.down[self.down_counter])
+            self.attack_counter = 0
+            self.status = "moving"
+        else:
+            if self.buffer_rate == self.update_rate:
+                self.image = pygame.image.load(self.down_dagger[self.attack_counter])
+                self.attack_counter = (self.attack_counter + 1)% len(self.down_dagger)
+                # reset image reset rate.
+                self.buffer_rate = 0
+            elif self.buffer_rate > 2:
+                self.buffer_rate = 0
+            else:
+                self.buffer_rate += 1
+
+    # Right attack
+    def rightAttack(self):
+        pygame.draw.rect(self.screen, (0,0,255), (self.x + self.rect.width - 10, self.y, 15, self.rect.width))
+        if self.attack_counter == 5:
+            self.down_counter = 0
             self.image = pygame.image.load(self.right[self.right_counter])
-            self.right_counter = (self.right_counter + 1)% len(self.right)
-            self.dir = 3
+            self.attack_counter = 0
+            self.status = "moving"
+        else:
+            if self.buffer_rate == self.update_rate:
+                self.image = pygame.image.load(self.right_dagger[self.attack_counter])
+                self.attack_counter = (self.attack_counter + 1)% len(self.right_dagger)
+                # reset image reset rate.
+                self.buffer_rate = 0
+            elif self.buffer_rate > 2:
+                self.buffer_rate = 0
+            else:
+                self.buffer_rate += 1
+
 
     def update(self):
         self.handle_keys()
