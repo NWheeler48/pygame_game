@@ -163,7 +163,7 @@ class AngusMcFife(pygame.sprite.Sprite):
         elif key[pygame.K_s]:
             self.downMove()
         # Left
-        if key[pygame.K_a]:
+        elif key[pygame.K_a]:
             self.leftMove()
         # Right
         elif key[pygame.K_d]:
