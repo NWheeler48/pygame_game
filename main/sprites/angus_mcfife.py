@@ -129,6 +129,26 @@ class AngusMcFife(pygame.sprite.Sprite):
 
         self.moveDist = 2
 
+        # Movement patterns
+        self.pattern_counter = 0
+
+        self.example_move = ['s', 's', 's', 's', 's', 's', 's', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd']
+
+
+    def move_pattern(self, pattern):
+        self.move_sprite(pattern[self.pattern_counter])
+        self.pattern_counter = (self.pattern_counter + 1)% len(pattern)
+
+    def move_sprite(self, direction):
+        # Up
+        if direction == 'w':
+            self.upMove()
+        elif direction == 's':
+            self.downMove()
+        elif direction == 'a':
+            self.leftMove()
+        elif direction == 'd':
+            self.rightMove()
 
 
     def handle_keys(self):
@@ -275,7 +295,10 @@ class AngusMcFife(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.handle_keys()
+
+
+        #self.handle_keys()
+        self.move_pattern(self.example_move)
 
         self.rect = self.image.get_rect() #pygame.Rect(self.x, self.y, 16, 16)
         self.rect.x = self.x
